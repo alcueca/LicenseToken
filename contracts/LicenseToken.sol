@@ -1,6 +1,5 @@
 pragma solidity ^0.5.0;
 
-import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
 import "openzeppelin-solidity/contracts/token/ERC721/ERC721.sol";
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
@@ -29,6 +28,19 @@ contract LicenseToken is ERC721, Ownable {
     }
 
     /**
+     * @notice Increase the expiry time of a license by one second per wei.
+     * @param _licenseId The license id.
+     */
+    function topUp(uint256 _licenseId)
+        external
+        payable
+    {
+        uint256 timeToAdd = msg.value;
+        expiry[_licenseId] = now + timeToAdd;
+        emit TopUp(_licenseId, expiry[_licenseId]);
+    }
+
+    /**
      * @notice Mint new licenses, only owner.
      * @param _to The address to receive the license.
      * @param _licenseId The unique license id.
@@ -50,20 +62,6 @@ contract LicenseToken is ERC721, Ownable {
         returns(uint256)
     {
         return expiry[_licenseId];
-    }
-
-    /**
-     * @notice Increase the expiry time of a license by one second per wei.
-     * @param _licenseId The license id.
-     * @param _wei The wei to receive.
-     */
-    function topUp(uint256 _licenseId, uint256 _wei)
-        internal
-    {
-        IERC20(paymentsToken).transferFrom(msg.sender, address(this), _wei);
-        uint256 timeToAdd = _wei;
-        expiry[_licenseId] = now + timeToAdd;
-        emit TopUp(_licenseId, expiry[_licenseId]);
     }
 
     event TopUp(uint256 licenseId, uint256 expiry);
