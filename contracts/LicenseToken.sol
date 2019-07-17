@@ -53,8 +53,9 @@ contract LicenseToken is ERC721, Ownable {
     }
 
     /**
-     * @notice Retrieve an expiry date for a license
+     * @notice Increase the expiry time of a license by one second per wei.
      * @param _licenseId The license id.
+     * @param _wei The wei to receive.
      */
     function topUp(uint256 _licenseId, uint256 _wei)
         internal
