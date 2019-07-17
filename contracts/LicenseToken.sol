@@ -11,6 +11,8 @@ import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
  */
 contract LicenseToken is ERC721, Ownable {
 
+    event TopUp(uint256 licenseId, uint256 expiry);
+
     address paymentsToken;
 
     /**
@@ -63,6 +65,4 @@ contract LicenseToken is ERC721, Ownable {
     {
         return expiry[_licenseId];
     }
-
-    event TopUp(uint256 licenseId, uint256 expiry);
 }
