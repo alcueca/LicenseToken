@@ -2,6 +2,7 @@ pragma solidity ^0.5.0;
 
 import "openzeppelin-solidity/contracts/token/ERC721/ERC721.sol";
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "openzeppelin-solidity/contracts/math/Math.sol";
 
 
 /**
@@ -38,7 +39,7 @@ contract LicenseToken is ERC721, Ownable {
         payable
     {
         uint256 timeToAdd = msg.value;
-        expiry[_licenseId] = now + timeToAdd;
+        expiry[_licenseId] = Math.max(now, expiry[_licenseId]) + timeToAdd;
         emit TopUp(_licenseId, expiry[_licenseId]);
     }
 
