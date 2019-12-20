@@ -14,8 +14,6 @@ contract LicenseToken is ERC721, Ownable {
 
     event TopUp(uint256 licenseId, uint256 expiry);
 
-    address paymentsToken;
-
     /**
      * @notice mapping from token id to expiry date (in unix time)
      */
@@ -26,9 +24,8 @@ contract LicenseToken is ERC721, Ownable {
      */
     constructor(address _paymentsToken)
         public
-    {
-        paymentsToken = _paymentsToken;
-    }
+        Ownable()
+    {}
 
     /**
      * @notice Increase the expiry time of a license by one second per wei.
